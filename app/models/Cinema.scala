@@ -7,7 +7,7 @@ import slick.driver.JdbcProfile
 
 import scala.concurrent.Future
 
-case class Cinema(id: Long, name: String, url: String, tel: String, email: String, location: Long)
+case class Cinema(id: Long, name: String, url: Option[String], tel: Option[String], email: Option[String], location: Option[Long])
 
 class CinemaRepo @Inject()(protected val dbConfigProvider: DatabaseConfigProvider) {
 
@@ -39,17 +39,15 @@ class CinemaRepo @Inject()(protected val dbConfigProvider: DatabaseConfigProvide
 
     def name = column[String]("NAME")
 
-    def url = column[String]("URL")
+    def url = column[Option[String]]("URL")
 
-    def tel = column[String]("TEL")
+    def tel = column[Option[String]]("TEL")
 
-    def email = column[String]("EMAIL")
+    def email = column[Option[String]]("EMAIL")
 
-    def location = column[Long]("LOCATION")
+    def location = column[Option[Long]]("LOCATION")
 
     def * = (id, name, url, tel, email, location) <>(Cinema.tupled, Cinema.unapply)
-
-    def ? = (id.?, name.?, url.?, tel.?, email.?, location.?).shaped.<>({ r => import r._; _1.map(_ => Cinema.tupled((_1.get, _2.get, _3.get, _4.get, _5.get, _6.get))) }, (_: Any) => throw new Exception("Inserting into ? projection not supported."))
 
   }
 

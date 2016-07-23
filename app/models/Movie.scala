@@ -2,13 +2,14 @@ package models
 
 import javax.inject.Inject
 
+import com.github.tototoshi.slick.H2JodaSupport._
 import org.joda.time.DateTime
 import play.api.db.slick.DatabaseConfigProvider
 import slick.driver.JdbcProfile
 
 import scala.concurrent.Future
 
-case class Movie(id: Long, title: String, release: DateTime, country: String, director: String, synopsis: String, imdb: String, tomatoes: String, details: Long)
+case class Movie(id: Long, title: String, release: Option[DateTime], country: Option[String], director: Option[String], synopsis: Option[String], imdb: Option[String], tomatoes: Option[String], details: Option[Long])
 
 class MovieRepo @Inject()(protected val dbConfigProvider: DatabaseConfigProvider) {
 
@@ -46,23 +47,21 @@ class MovieRepo @Inject()(protected val dbConfigProvider: DatabaseConfigProvider
 
     def title = column[String]("TITLE")
 
-    def release = column[DateTime]("RELEASE")
+    def release = column[Option[DateTime]]("RELEASE")
 
-    def country = column[String]("COUNTRY")
+    def country = column[Option[String]]("COUNTRY")
 
-    def director = column[String]("DIRECTOR")
+    def director = column[Option[String]]("DIRECTOR")
 
-    def synopsis = column[String]("SYNOPSIS")
+    def synopsis = column[Option[String]]("SYNOPSIS")
 
-    def imdb = column[String]("IMDB")
+    def imdb = column[Option[String]]("IMDB")
 
-    def tomatoes = column[String]("TOMATOES")
+    def tomatoes = column[Option[String]]("TOMATOES")
 
-    def details = column[Long]("DETAILS")
+    def details = column[Option[Long]]("DETAILS")
 
     def * = (id, title, release, country, director, synopsis, imdb, tomatoes, details) <>(Movie.tupled, Movie.unapply)
-
-    def ? = (id.?, title.?, release.?, country.?, director.?, synopsis.?, imdb.?, tomatoes.?, details.?).shaped.<>({ r => ; _1.map(_ => Movie.tupled((_1.get, _2.get, _3.get, _4.get, _5.get, _6.get, _7.get, _8.get, _9.get))) }, (_: Any) => throw new Exception("Inserting into ? projection not supported."))
 
   }
 

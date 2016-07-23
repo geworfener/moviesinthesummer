@@ -2,13 +2,14 @@ package models
 
 import javax.inject.Inject
 
+import com.github.tototoshi.slick.H2JodaSupport._
 import org.joda.time.DateTime
 import play.api.db.slick.DatabaseConfigProvider
 import slick.driver.JdbcProfile
 
 import scala.concurrent.Future
 
-case class Show(id: Long, movie: Long, location: Long, start: DateTime, end: DateTime)
+case class Show(id: Long, movie: Long, location: Long, start: DateTime, end: Option[DateTime])
 
 class ShowRepo @Inject()(protected val dbConfigProvider: DatabaseConfigProvider) {
 
@@ -47,11 +48,9 @@ class ShowRepo @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
 
     def start = column[DateTime]("START")
 
-    def end = column[DateTime]("END")
+    def end = column[Option[DateTime]]("END")
 
     def * = (id, movie, location, start, end) <>(Show.tupled, Show.unapply)
-
-    def ? = (id.?, movie.?, location.?, start.?, end.?).shaped.<>({ r => ; _1.map(_ => Show.tupled((_1.get, _2.get, _3.get, _4.get, _5.get))) }, (_: Any) => throw new Exception("Inserting into ? projection not supported."))
 
   }
 

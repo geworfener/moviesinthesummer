@@ -49,8 +49,6 @@ class LocationRepo @Inject()(protected val dbConfigProvider: DatabaseConfigProvi
 
     def * = (id, name, cinema, city, postal, street, address) <>(Location.tupled, Location.unapply)
 
-    def ? = (id.?, name.?, cinema.?, city.?, postal.?, street.?, address.?).shaped.<>({ r => import r._; _1.map(_ => Location.tupled((_1.get, _2.get, _3.get, _4.get, _5.get, _6.get, _7.get))) }, (_: Any) => throw new Exception("Inserting into ? projection not supported."))
-
   }
 
 }
