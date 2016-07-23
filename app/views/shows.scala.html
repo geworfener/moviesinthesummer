@@ -1,0 +1,10 @@
+@(shows: List[Show])
+
+    @main("Shows") {
+        Shows:
+        @shows.map { show =>
+            @show.id
+        <a href="@routes.Application.listShows()">details</a>
+            <br>
+        }
+    }
