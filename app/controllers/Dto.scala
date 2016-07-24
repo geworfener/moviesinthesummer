@@ -12,7 +12,7 @@ import models._
 
 object Dto {
 
-  implicit val showFormat = Json.format[Show]
+  implicit val showingFormat = Json.format[Showing]
   implicit val movieFormat = Json.format[Movie]
   implicit val cinemaFormat = Json.format[Cinema]
   implicit val locationFormat = Json.format[Location]

@@ -9,7 +9,7 @@ import slick.driver.JdbcProfile
 
 import scala.concurrent.Future
 
-case class Movie(id: Long, title: String, release: Option[DateTime], country: Option[String], director: Option[String], synopsis: Option[String], imdb: Option[String], tomatoes: Option[String], details: Option[Long])
+case class Movie(id: Long, title: String, released: Option[DateTime], runtime: Option[Long], genre: Option[String], country: Option[String], director: Option[String], synopsis: Option[String], poster: Option[String], imdbid: Option[String], imdbrating: Option[Float], tomatoesid: Option[String], details: Option[Long])
 
 class MovieRepo @Inject()(protected val dbConfigProvider: DatabaseConfigProvider) {
 
@@ -34,11 +34,11 @@ class MovieRepo @Inject()(protected val dbConfigProvider: DatabaseConfigProvider
   def findByTitle(title: String): Future[List[Movie]] =
     db.run(Movies.filter(_.title === title).to[List].result)
 
-  def findByImdb(imdb: String): Future[List[Movie]] =
-    db.run(Movies.filter(_.imdb === imdb).to[List].result)
+  def findByImdbid(imdbid: String): Future[List[Movie]] =
+    db.run(Movies.filter(_.imdbid === imdbid).to[List].result)
 
-  def findByTomatoes(tomatoes: String): Future[List[Movie]] =
-    db.run(Movies.filter(_.tomatoes === tomatoes).to[List].result)
+  def findByTomatoesid(tomatoesid: String): Future[List[Movie]] =
+    db.run(Movies.filter(_.tomatoesid === tomatoesid).to[List].result)
 
 
   private class MoviesTable(tag: Tag) extends Table[Movie](tag, "MOVIE") {
@@ -47,7 +47,11 @@ class MovieRepo @Inject()(protected val dbConfigProvider: DatabaseConfigProvider
 
     def title = column[String]("TITLE")
 
-    def release = column[Option[DateTime]]("RELEASE")
+    def released = column[Option[DateTime]]("RELEASED")
+
+    def runtime = column[Option[Long]]("RUNTIME")
+
+    def genre = column[Option[String]]("GENRE")
 
     def country = column[Option[String]]("COUNTRY")
 
@@ -55,13 +59,17 @@ class MovieRepo @Inject()(protected val dbConfigProvider: DatabaseConfigProvider
 
     def synopsis = column[Option[String]]("SYNOPSIS")
 
-    def imdb = column[Option[String]]("IMDB")
+    def poster = column[Option[String]]("POSTER")
 
-    def tomatoes = column[Option[String]]("TOMATOES")
+    def imdbid = column[Option[String]]("IMDBID")
+
+    def imdbrating = column[Option[Float]]("IMDBRATING")
+
+    def tomatoesid = column[Option[String]]("TOMATOESID")
 
     def details = column[Option[Long]]("DETAILS")
 
-    def * = (id, title, release, country, director, synopsis, imdb, tomatoes, details) <>(Movie.tupled, Movie.unapply)
+    def * = (id, title, released, runtime, genre, country, director, synopsis, poster, imdbid, imdbrating, tomatoesid, details) <>(Movie.tupled, Movie.unapply)
 
   }
 

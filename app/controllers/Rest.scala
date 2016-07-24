@@ -3,20 +3,20 @@ package controllers
 import javax.inject.Inject
 
 import controllers.Dto._
-import models.{CinemaRepo, LocationRepo, MovieRepo, ShowRepo}
+import models.{CinemaRepo, LocationRepo, MovieRepo, ShowingRepo}
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.libs.json._
 import play.api.mvc.{Action, Controller}
 
 
-class Rest @Inject()(showRepo: ShowRepo,
+class Rest @Inject()(showingRepo: ShowingRepo,
                      movieRepo: MovieRepo,
                      locationRepo: LocationRepo,
                      cinemaRepo: CinemaRepo)
   extends Controller {
 
-  def listShows = Action.async {
-    showRepo.all.map(show => Ok(Json.toJson(show))
+  def listShowings = Action.async {
+    showingRepo.all.map(show => Ok(Json.toJson(show))
     )
   }
 
