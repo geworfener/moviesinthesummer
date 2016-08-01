@@ -1,7 +1,4 @@
 
-
-
-GET        /                 controllers.Application.listShowings
 GET        /showings         controllers.Rest.listShowings
 GET        /movies           controllers.Rest.listMovies
 GET        /locations        controllers.Rest.listLocations

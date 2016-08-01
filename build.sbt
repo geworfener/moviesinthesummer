@@ -1,6 +1,6 @@
-name := """play-slick-example"""
+name := "moviesinthesummer"
 
-version := "1.0-SNAPSHOT"
+version := "0.1"
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
@@ -15,7 +15,8 @@ libraryDependencies ++= Seq(
     "com.typesafe.play" %% "play-slick-evolutions" % "2.0.0",
     "com.h2database" % "h2" % "1.4.187",
     "org.scalatestplus.play" %% "scalatestplus-play" % "1.5.0" % "test",
-    specs2 % Test
+    specs2 % Test,
+    "com.github.tototoshi" %% "slick-joda-mapper" % "2.2.0"
 )
 
 resolvers += "Sonatype snapshots" at "http://oss.sonatype.org/content/repositories/snapshots/"
