@@ -35,4 +35,10 @@ class Rest @Inject()(showingRepo: ShowingRepo,
     )
   }
 
+  def getAppVersion = Action {
+    Ok(Json.obj(
+      "version" -> sbtbuild.Info.version
+    ))
+  }
+
 }

@@ -2,9 +2,16 @@ name := "moviesinthesummer"
 
 version := "0.1"
 
-lazy val root = (project in file(".")).enablePlugins(PlayScala)
-
 scalaVersion := "2.11.7"
+
+lazy val root = (project in file(".")).enablePlugins(PlayScala, BuildInfoPlugin).
+  settings(
+      buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
+      buildInfoPackage := "sbtbuild",
+      buildInfoObject := "Info",
+      buildInfoOptions += BuildInfoOption.ToJson,
+      buildInfoOptions += BuildInfoOption.BuildTime
+  )
 
 routesGenerator := InjectedRoutesGenerator
 

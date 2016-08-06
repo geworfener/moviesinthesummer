@@ -3,3 +3,4 @@ GET        /showings         controllers.Rest.listShowings
 GET        /movies           controllers.Rest.listMovies
 GET        /locations        controllers.Rest.listLocations
 GET        /cinemas          controllers.Rest.listCinemas
+GET        /version          controllers.Rest.getAppVersion
